@@ -182,6 +182,8 @@ public class StudentController : Controller
             }
         }
 
+        _studentRepository.Save(student);
+
         return Ok();
     }
 
@@ -197,6 +199,7 @@ public class StudentController : Controller
         if (string.IsNullOrWhiteSpace(newCourseName) || currentEnrollment == null)
             return true;
 
-        return newCourseName != currentEnrollment.Course.Name || newGrade != currentEnrollment.Grade.ToString();
+        return newCourseName != currentEnrollment.Course.Name
+            || newGrade != currentEnrollment.Grade.ToString();
     }
 }

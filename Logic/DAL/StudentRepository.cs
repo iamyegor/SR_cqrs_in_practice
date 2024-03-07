@@ -14,7 +14,11 @@ public sealed class StudentRepository
 
     public Student? GetById(long id)
     {
-        return _context.Students.Find(id);
+        return _context
+            .Students.Where(s => s.Id == id)
+            .Include(s => s.Enrollments)
+            .ThenInclude(e => e.Course)
+            .FirstOrDefault();
     }
 
     public IReadOnlyList<Student> GetList(string? enrolledIn, int? numberOfCourses)
@@ -30,7 +34,7 @@ public sealed class StudentRepository
 
         if (numberOfCourses != null)
         {
-            query = query.Where(s => s.Enrollments.Count > numberOfCourses);
+            query = query.Where(s => s.Enrollments.Count == numberOfCourses);
         }
 
         return query.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToList();
