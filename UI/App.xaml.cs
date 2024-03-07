@@ -6,7 +6,7 @@ namespace UI
     {
         public App()
         {
-            ApiClient.Init("http://localhost:52335/api/students");
+            ApiClient.Init("http://192.168.0.10:52335/api/students");
         }
     }
 }
