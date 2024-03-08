@@ -42,7 +42,18 @@ public sealed class StudentRepository
 
     public void Save(Student student)
     {
-        _context.Students.Update(student);
+        _context.Update(student);
+        foreach (var removedEnrollment in student.PopRemovedEnrollments())
+        {
+            _context.Remove(removedEnrollment);
+        }
+
+        _context.SaveChanges();
+    }
+
+    public void Add(Student student)
+    {
+        _context.Add(student);
         _context.SaveChanges();
     }
 

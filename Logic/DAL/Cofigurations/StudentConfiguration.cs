@@ -15,8 +15,17 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(s => s.Name).IsRequired().HasMaxLength(100);
         builder.Property(s => s.Email).IsRequired().HasMaxLength(100);
 
-        builder.HasMany(s => s.Enrollments).WithOne(e => e.Student).HasForeignKey("StudentId");
-        builder.HasMany(s => s.Disenrollments).WithOne(d => d.Student).HasForeignKey("StudentId");
+        builder
+            .HasMany(s => s.Enrollments)
+            .WithOne(e => e.Student)
+            .HasForeignKey("StudentId")
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(s => s.Disenrollments)
+            .WithOne(d => d.Student)
+            .HasForeignKey("StudentId")
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Ignore(s => s.FirstEnrollment);
         builder.Ignore(s => s.SecondEnrollment);

@@ -7,6 +7,7 @@ public class Student : Entity
 
     private readonly IList<Enrollment> _enrollments = new List<Enrollment>();
     public IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
+    private List<Enrollment> _removedEnrollments = [];
     public Enrollment? FirstEnrollment => GetEnrollment(0);
     public Enrollment? SecondEnrollment => GetEnrollment(1);
 
@@ -34,6 +35,16 @@ public class Student : Entity
     public void RemoveEnrollment(Enrollment enrollment)
     {
         _enrollments.Remove(enrollment);
+        _removedEnrollments.Add(enrollment);
+    }
+
+    public IEnumerable<Enrollment> PopRemovedEnrollments()
+    {
+        IEnumerable<Enrollment> copy = _removedEnrollments.ToList();
+
+        _removedEnrollments.Clear();
+
+        return copy;
     }
 
     public void AddDisenrollmentComment(Enrollment enrollment, string comment)

@@ -34,35 +34,33 @@ namespace Logic.Migrations
 
             migrationBuilder.Sql(
                 @"
-        INSERT INTO ""Courses"" (""Id"", ""Name"", ""Credits"")
-        VALUES (1, 'Calculus', 3),
-               (2, 'Chemistry', 3),
-               (3, 'Composition', 3),
-               (4, 'Literature', 4),
-               (5, 'Trigonometry', 4),
-               (6, 'Microeconomics', 3),
-               (7, 'Macroeconomics', 3);
-    "
+INSERT INTO ""Courses"" (""Name"", ""Credits"")
+VALUES ('Calculus', 3),
+       ('Chemistry', 3),
+       ('Composition', 3),
+       ('Literature', 4),
+       ('Trigonometry', 4),
+       ('Microeconomics', 3),
+       ('Macroeconomics', 3);
+"
             );
 
-            // Students data insertion
             migrationBuilder.Sql(
                 @"
-        INSERT INTO ""Students"" (""Id"", ""Name"", ""Email"")
-        VALUES (1, 'Alice', 'alice@gmail.com'),
-               (2, 'Bob', 'bob@outlook.com');
-    "
+INSERT INTO ""Students"" (""Name"", ""Email"")
+VALUES ('Alice', 'alice@gmail.com'),
+       ('Bob', 'bob@outlook.com');
+"
             );
 
-            // Enrollment data insertion
             migrationBuilder.Sql(
                 @"
-        INSERT INTO ""Enrollment"" (""Id"", ""StudentId"", ""CourseId"", ""Grade"")
-        VALUES (5, 2, 2, 1),
-               (13, 2, 3, 3),
-               (20, 1, 1, 1),
-               (38, 1, 2, 3);
-    "
+INSERT INTO ""Enrollment"" (""StudentId"", ""CourseId"", ""Grade"")
+VALUES (2, 2, 1),
+       (2, 3, 3),
+       (1, 1, 1),
+       (1, 2, 3);
+"
             );
         }
 
@@ -96,25 +94,23 @@ namespace Logic.Migrations
 
             migrationBuilder.Sql(
                 @"
-        DELETE FROM ""Enrollment""
-        WHERE ""Id"" IN (5, 13, 20, 38);
-    "
+DELETE FROM ""Courses""
+WHERE ""Name"" IN ('Calculus', 'Chemistry', 'Composition', 'Literature', 'Trigonometry', 'Microeconomics', 'Macroeconomics');
+"
             );
 
-            // Delete specific Students data
             migrationBuilder.Sql(
                 @"
-        DELETE FROM ""Students""
-        WHERE ""Id"" IN (1, 2);
-    "
+DELETE FROM ""Students""
+WHERE ""Name"" IN ('Alice', 'Bob');
+"
             );
 
-            // Delete specific Courses data
             migrationBuilder.Sql(
                 @"
-        DELETE FROM ""Courses""
-        WHERE ""Id"" IN (1, 2, 3, 4, 5, 6, 7);
-    "
+DELETE FROM ""Enrollment""
+WHERE (""StudentId"", ""CourseId"") IN ((2, 2), (2, 3), (1, 1), (1, 2));
+"
             );
         }
     }

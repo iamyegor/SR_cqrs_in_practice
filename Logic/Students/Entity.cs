@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Logic.Students;
 
 public abstract class Entity
 {
-    public long Id { get; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; }
 
     public override bool Equals(object? obj)
     {
