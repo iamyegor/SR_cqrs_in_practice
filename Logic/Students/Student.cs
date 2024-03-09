@@ -22,7 +22,7 @@ public class Student : Entity
         Email = email;
     }
 
-    private Enrollment? GetEnrollment(int index)
+    public Enrollment? GetEnrollment(int index)
     {
         if (_enrollments.Count > index)
         {
@@ -32,10 +32,13 @@ public class Student : Entity
         return null;
     }
 
-    public void RemoveEnrollment(Enrollment enrollment)
+    public void Disenroll(Enrollment enrollment, string comment)
     {
         _enrollments.Remove(enrollment);
         _removedEnrollments.Add(enrollment);
+        
+        var disenrollment = new Disenrollment(enrollment.Student, enrollment.Course, comment);
+        _disenrollments.Add(disenrollment);
     }
 
     public IEnumerable<Enrollment> PopRemovedEnrollments()
@@ -45,12 +48,6 @@ public class Student : Entity
         _removedEnrollments.Clear();
 
         return copy;
-    }
-
-    public void AddDisenrollmentComment(Enrollment enrollment, string comment)
-    {
-        var disenrollment = new Disenrollment(enrollment.Student, enrollment.Course, comment);
-        _disenrollments.Add(disenrollment);
     }
 
     public void Enroll(Course course, Grade grade)
