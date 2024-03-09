@@ -103,13 +103,15 @@ namespace UI.Api
                     Encoding.UTF8,
                     "application/json"
                 );
+                request.Content.ReadAsStringAsync();
             }
-
+            
             HttpResponseMessage message = await Client.SendAsync(request).ConfigureAwait(false);
+            await message.Content.ReadAsStringAsync();
             string response = await message.Content.ReadAsStringAsync().ConfigureAwait(false);
             Console.WriteLine(response);
             var envelope = JsonConvert.DeserializeObject<Envelope<T>>(response);
-
+            
             if (message.StatusCode == HttpStatusCode.InternalServerError)
                 throw new Exception(envelope.ErrorMessage);
 

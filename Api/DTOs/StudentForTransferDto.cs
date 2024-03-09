@@ -2,6 +2,6 @@ namespace Api.DTOs;
 
 public class StudentForTransferDto
 {
-    public string CourseName { get; set; } 
-    public string CourseGrade { get; set; }
+    public string Course { get; set; } 
+    public string Grade { get; set; }
 }

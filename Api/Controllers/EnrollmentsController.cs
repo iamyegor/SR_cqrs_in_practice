@@ -30,16 +30,16 @@ public class EnrollmentsController : Controller
             return Error($"No student found for Id {studentId}");
         }
 
-        Course? course = _courseRepository.GetByName(studentForEnrollmentDto.CourseName);
+        Course? course = _courseRepository.GetByName(studentForEnrollmentDto.Course);
         if (course == null)
         {
-            return Error($"No course with name {studentForEnrollmentDto.CourseName}");
+            return Error($"No course with name {studentForEnrollmentDto.Course}");
         }
 
-        bool gradeParsed = Enum.TryParse(studentForEnrollmentDto.CourseGrade, out Grade grade);
+        bool gradeParsed = Enum.TryParse(studentForEnrollmentDto.Grade, out Grade grade);
         if (!gradeParsed)
         {
-            return Error($"The provided grade {studentForEnrollmentDto.CourseGrade} is incorrect");
+            return Error($"The provided grade {studentForEnrollmentDto.Grade} is incorrect");
         }
 
         student.Enroll(course, grade);
@@ -62,16 +62,16 @@ public class EnrollmentsController : Controller
             return Error($"No student found for Id {studentId}");
         }
 
-        Course? course = _courseRepository.GetByName(studentForTransferDto.CourseName);
+        Course? course = _courseRepository.GetByName(studentForTransferDto.Course);
         if (course == null)
         {
-            return Error($"No course with name {studentForTransferDto.CourseName}");
+            return Error($"No course with name {studentForTransferDto.Course}");
         }
 
-        bool gradeParsed = Enum.TryParse(studentForTransferDto.CourseGrade, out Grade grade);
+        bool gradeParsed = Enum.TryParse(studentForTransferDto.Grade, out Grade grade);
         if (!gradeParsed)
         {
-            return Error($"The provided grade {studentForTransferDto.CourseGrade} is incorrect");
+            return Error($"The provided grade {studentForTransferDto.Grade} is incorrect");
         }
 
         Enrollment? enrollment = student.GetEnrollment(enrollmentNumber);
