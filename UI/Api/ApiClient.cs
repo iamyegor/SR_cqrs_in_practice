@@ -95,7 +95,7 @@ namespace UI.Api
         )
             where T : class
         {
-            var request = new HttpRequestMessage(method, $"{_endpointUrl}/{url}");
+            var request = new HttpRequestMessage(method, $"{_endpointUrl}{url}");
             if (content != null)
             {
                 request.Content = new StringContent(
@@ -103,9 +103,15 @@ namespace UI.Api
                     Encoding.UTF8,
                     "application/json"
                 );
+                Console.WriteLine();
             }
 
             HttpResponseMessage message = await Client.SendAsync(request).ConfigureAwait(false);
+            if (!message.IsSuccessStatusCode)
+            {
+                Console.WriteLine(message.StatusCode);
+                Console.WriteLine(message.Content);
+            }
             await message.Content.ReadAsStringAsync();
             string response = await message.Content.ReadAsStringAsync().ConfigureAwait(false);
             Console.WriteLine(response);
