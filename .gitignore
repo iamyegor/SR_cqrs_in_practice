@@ -72,4 +72,8 @@ ScaffoldingReadMe.txt
 *.temp
 *.tlog
 *.vscode
+<<<<<<< HEAD
 .env
+=======
+.env
+>>>>>>> 05d7561 (stop tracking all files that are included in the .gitignore)
