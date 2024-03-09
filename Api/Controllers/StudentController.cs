@@ -1,8 +1,9 @@
+using System.Runtime.InteropServices.JavaScript;
 using Api.DTOs;
 using AutoMapper;
+using CSharpFunctionalExtensions;
 using Logic.DAL;
 using Logic.Students;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -83,16 +84,19 @@ public class StudentController : Controller
     [HttpPut("{studentId}")]
     public IActionResult EditPersonalInfo(int studentId, StudentForUpdateDto studentForUpdateDto)
     {
-        Student? student = _studentRepository.GetById(studentId);
-        if (student == null)
+        EditPersonalInfoCommandHandler handler = new EditPersonalInfoCommandHandler(
+            _studentRepository
+        );
+
+        EditPersonalInfoCommand command = new EditPersonalInfoCommand()
         {
-            return Error($"No student found for Id {studentId}");
-        }
+            Id = studentId,
+            Name = studentForUpdateDto.Name,
+            Email = studentForUpdateDto.Email
+        };
 
-        _mapper.Map(studentForUpdateDto, student);
+        Result result = handler.Handle(command);
 
-        _studentRepository.Save(student);
-
-        return Ok();
+        return result.IsSuccess ? Ok() : Error(result.Error);
     }
 }
