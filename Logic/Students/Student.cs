@@ -36,7 +36,7 @@ public class Student : Entity
     {
         _enrollments.Remove(enrollment);
         _removedEnrollments.Add(enrollment);
-        
+
         var disenrollment = new Disenrollment(enrollment.Student, enrollment.Course, comment);
         _disenrollments.Add(disenrollment);
     }

@@ -70,7 +70,7 @@ namespace UI.Api
         {
             Result result = await SendRequest<string>(
                     $"/{dto.Id}/enrollments/{dto.EnrollmentNumber}",
-                    HttpMethod.Put,
+                    HttpMethod.Delete,
                     dto
                 )
                 .ConfigureAwait(false);
@@ -80,8 +80,8 @@ namespace UI.Api
         public static async Task<Result> Disenroll(DisenrollmentDto dto)
         {
             Result result = await SendRequest<string>(
-                    $"/{dto.Id}/enrollments/{dto.EnrollmentNumber}/deletion",
-                    HttpMethod.Post,
+                    $"/{dto.Id}/enrollments/{dto.EnrollmentNumber}",
+                    HttpMethod.Delete,
                     dto
                 )
                 .ConfigureAwait(false);

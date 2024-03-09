@@ -100,7 +100,7 @@ public class EnrollmentsController : Controller
             return Error($"No student found for Id {studentId}");
         }
 
-        Enrollment? enrollment = student.GetEnrollment(enrollmentNumber);
+        Enrollment? enrollment = student.GetEnrollment(enrollmentNumber - 1);
         if (enrollment == null)
         {
             return Error("User doesn't have this enrollment");
