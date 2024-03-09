@@ -53,5 +53,7 @@ public class StudentProfile : Profile
                         src.SecondEnrollment != null ? src.SecondEnrollment.Course.Credits : default
                     )
             );
+
+        CreateMap<Student, StudentForUpdateDto>().ReverseMap();
     }
 }

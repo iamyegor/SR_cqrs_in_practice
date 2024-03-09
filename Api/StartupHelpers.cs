@@ -10,12 +10,17 @@ public static class StartupHelpers
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddControllers();
+        builder
+            .Services.AddControllers(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+            })
+            .AddNewtonsoftJson();
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(
-                "Host=localhost;Port=5432;Username=postgres;Password=yapidr;Database=khorikov_cqrs;"
+                "Host=localhost;Port=5432;Username=postgres;Password=yapidr;Database=khorikov_cqrs;Include Error Detail=true"
             );
         });
 
