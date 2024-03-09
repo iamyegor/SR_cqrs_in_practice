@@ -81,7 +81,7 @@ public class StudentController : Controller
     }
 
     [HttpPut("{studentId}")]
-    public IActionResult Update(int studentId, StudentForUpdateDto studentForUpdateDto)
+    public IActionResult EditPersonalInfo(int studentId, StudentForUpdateDto studentForUpdateDto)
     {
         Student? student = _studentRepository.GetById(studentId);
         if (student == null)
