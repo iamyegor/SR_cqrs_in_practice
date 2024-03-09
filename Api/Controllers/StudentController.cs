@@ -35,7 +35,7 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] StudentDto studentDto)
+    public IActionResult Register([FromBody] StudentForCreationDto studentDto)
     {
         var student = new Student(studentDto.Name, studentDto.Email);
 
@@ -66,6 +66,20 @@ public class StudentController : Controller
         return Ok();
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult Unregister(long id)
+    {
+        Student? student = _studentRepository.GetById(id);
+        if (student == null)
+        {
+            return Error($"No student found for Id {id}");
+        }
+
+        _studentRepository.Delete(student);
+
+        return Ok();
+    }
+
     [HttpPut("{studentId}")]
     public IActionResult Update(int studentId, StudentForUpdateDto studentForUpdateDto)
     {
@@ -78,20 +92,6 @@ public class StudentController : Controller
         _mapper.Map(studentForUpdateDto, student);
 
         _studentRepository.Save(student);
-
-        return Ok();
-    }
-
-    [HttpDelete("{id}")]
-    public IActionResult Delete(long id)
-    {
-        Student? student = _studentRepository.GetById(id);
-        if (student == null)
-        {
-            return Error($"No student found for Id {id}");
-        }
-
-        _studentRepository.Delete(student);
 
         return Ok();
     }
