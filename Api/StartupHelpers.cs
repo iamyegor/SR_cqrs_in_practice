@@ -1,3 +1,4 @@
+using Api.DTOs;
 using Api.Utils;
 using Logic.DAL;
 using Logic.Students;
@@ -36,6 +37,10 @@ public static class StartupHelpers
         >();
 
         builder.Services.AddTransient<Messages>();
+        builder.Services.AddTransient<
+            IQueryHandler<GetStudentsListQuery, IEnumerable<StudentDto>>,
+            GetStudentsListQueryHandler
+        >();
 
         return builder;
     }

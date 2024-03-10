@@ -1,5 +1,4 @@
 using Api.DTOs;
-using AutoMapper;
 using CSharpFunctionalExtensions;
 using Logic.DAL;
 using Logic.Students;
@@ -13,28 +12,26 @@ public class StudentController : Controller
 {
     private readonly StudentRepository _studentRepository;
     private readonly CourseRepository _courseRepository;
-    private readonly IMapper _mapper;
     private readonly Messages _messages;
 
     public StudentController(
         StudentRepository studentRepository,
         CourseRepository courseRepository,
-        IMapper mapper,
         Messages messages
     )
     {
         _studentRepository = studentRepository;
         _courseRepository = courseRepository;
-        _mapper = mapper;
         _messages = messages;
     }
 
     [HttpGet]
     public IActionResult GetList(string? enrolled, int? number)
     {
-        IReadOnlyList<Student> studentsFromDb = _studentRepository.GetList(enrolled, number);
+        GetStudentsListQuery query = new GetStudentsListQuery(enrolled, number);
+        IEnumerable<StudentDto> studentsToReturn = _messages.Dispatch(query);
 
-        return Ok(_mapper.Map<IEnumerable<StudentDto>>(studentsFromDb));
+        return Ok(studentsToReturn);
     }
 
     [HttpPost]
