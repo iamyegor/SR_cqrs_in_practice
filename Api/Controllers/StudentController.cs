@@ -86,12 +86,11 @@ public class StudentController : Controller
     [HttpPut("{studentId}")]
     public IActionResult EditPersonalInfo(int studentId, StudentForUpdateDto studentForUpdateDto)
     {
-        EditPersonalInfoCommand command = new EditPersonalInfoCommand()
-        {
-            Id = studentId,
-            Name = studentForUpdateDto.Name,
-            Email = studentForUpdateDto.Email
-        };
+        EditPersonalInfoCommand command = new EditPersonalInfoCommand(
+            studentId,
+            studentForUpdateDto.Name,
+            studentForUpdateDto.Email
+        );
         Result result = _messages.Dispatch(command);
 
         return result.IsSuccess ? Ok() : Error(result.Error);

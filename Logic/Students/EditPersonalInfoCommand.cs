@@ -5,9 +5,16 @@ namespace Logic.Students;
 
 public class EditPersonalInfoCommand : ICommand
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
+    public int Id { get; }
+    public string Name { get; }
+    public string Email { get; }
+
+    public EditPersonalInfoCommand(int id, string name, string email)
+    {
+        Id = id;
+        Name = name;
+        Email = email;
+    }
 }
 
 public interface ICommand;
