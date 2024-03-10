@@ -4,6 +4,8 @@ using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.Common;
 using Logic.Students.Commands.EditPersonalInfo;
+using Logic.Students.Commands.Register;
+using Logic.Students.Commands.Unregister;
 using Logic.Students.Queries.Common;
 using Logic.Students.Queries.GetStudentsList;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +46,12 @@ public static class StartupHelpers
         builder.Services.AddTransient<
             IQueryHandler<GetStudentsListQuery, IEnumerable<StudentDto>>,
             GetStudentsListQueryHandler
+        >();
+
+        builder.Services.AddTransient<ICommandHandler<RegisterCommand>, RegisterCommandHandler>();
+        builder.Services.AddTransient<
+            ICommandHandler<UnregisterCommand>,
+            UnregisterCommandHandler
         >();
 
         return builder;
