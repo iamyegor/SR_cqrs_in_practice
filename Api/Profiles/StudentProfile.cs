@@ -1,5 +1,5 @@
-using Api.DTOs;
 using AutoMapper;
+using DTOs;
 using Logic.Students;
 using Logic.Students.Commands.Enroll;
 using Logic.Students.Commands.Register;

@@ -1,6 +1,6 @@
-using Api.DTOs;
 using AutoMapper;
 using CSharpFunctionalExtensions;
+using DTOs;
 using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.EditPersonalInfo;

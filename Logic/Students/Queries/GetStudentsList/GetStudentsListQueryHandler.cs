@@ -1,5 +1,5 @@
-using Api.DTOs;
 using AutoMapper;
+using DTOs;
 using Logic.DAL;
 using Logic.Students.Queries.Common;
 

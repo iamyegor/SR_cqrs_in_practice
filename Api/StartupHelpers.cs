@@ -1,5 +1,5 @@
-using Api.DTOs;
 using Api.Utils;
+using DTOs;
 using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.Common;

@@ -1,4 +1,4 @@
-using Api.DTOs;
+using DTOs;
 using Logic.Students.Queries.Common;
 
 namespace Logic.Students.Queries.GetStudentsList;
