@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using Api.DTOs;
 using AutoMapper;
 using CSharpFunctionalExtensions;
@@ -15,16 +14,19 @@ public class StudentController : Controller
     private readonly StudentRepository _studentRepository;
     private readonly CourseRepository _courseRepository;
     private readonly IMapper _mapper;
+    private readonly Messages _messages;
 
     public StudentController(
         StudentRepository studentRepository,
         CourseRepository courseRepository,
-        IMapper mapper
+        IMapper mapper,
+        Messages messages
     )
     {
         _studentRepository = studentRepository;
         _courseRepository = courseRepository;
         _mapper = mapper;
+        _messages = messages;
     }
 
     [HttpGet]
@@ -84,18 +86,13 @@ public class StudentController : Controller
     [HttpPut("{studentId}")]
     public IActionResult EditPersonalInfo(int studentId, StudentForUpdateDto studentForUpdateDto)
     {
-        EditPersonalInfoCommandHandler handler = new EditPersonalInfoCommandHandler(
-            _studentRepository
-        );
-
         EditPersonalInfoCommand command = new EditPersonalInfoCommand()
         {
             Id = studentId,
             Name = studentForUpdateDto.Name,
             Email = studentForUpdateDto.Email
         };
-
-        Result result = handler.Handle(command);
+        Result result = _messages.Dispatch(command);
 
         return result.IsSuccess ? Ok() : Error(result.Error);
     }

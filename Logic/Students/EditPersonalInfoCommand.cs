@@ -1,4 +1,3 @@
-using AutoMapper;
 using CSharpFunctionalExtensions;
 using Logic.DAL;
 

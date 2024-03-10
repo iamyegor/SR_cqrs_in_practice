@@ -1,5 +1,6 @@
 using Api.Utils;
 using Logic.DAL;
+using Logic.Students;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -28,6 +29,13 @@ public static class StartupHelpers
         builder.Services.AddTransient<CourseRepository>();
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        builder.Services.AddTransient<
+            ICommandHandler<EditPersonalInfoCommand>,
+            EditPersonalInfoCommandHandler
+        >();
+
+        builder.Services.AddTransient<Messages>();
 
         return builder;
     }
