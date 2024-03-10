@@ -30,7 +30,7 @@ public class EnrollmentsController : Controller
 
         Result result = _messages.Dispatch(command);
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 
     [HttpPut("{enrollmentNumber}")]
@@ -46,7 +46,7 @@ public class EnrollmentsController : Controller
 
         Result result = _messages.Dispatch(command);
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 
     [HttpDelete("{enrollmentNumber}")]
@@ -63,6 +63,6 @@ public class EnrollmentsController : Controller
         );
         Result result = _messages.Dispatch(command);
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 }

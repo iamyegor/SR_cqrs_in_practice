@@ -39,7 +39,7 @@ public class StudentController : Controller
         RegisterCommand command = _mapper.Map<RegisterCommand>(studentDto);
         Result result = _messages.Dispatch(command);
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 
     [HttpDelete("{id}")]
@@ -47,7 +47,7 @@ public class StudentController : Controller
     {
         Result result = _messages.Dispatch(new UnregisterCommand(id));
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 
     [HttpPut("{studentId}")]
@@ -63,6 +63,6 @@ public class StudentController : Controller
         );
         Result result = _messages.Dispatch(command);
 
-        return result.IsSuccess ? Ok() : Error(result.Error);
+        return FromResult(result);
     }
 }
