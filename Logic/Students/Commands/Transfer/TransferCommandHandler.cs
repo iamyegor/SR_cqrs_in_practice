@@ -38,7 +38,7 @@ public class TransferCommandHandler : ICommandHandler<TransferCommand>
             return Result.Failure($"The provided grade {command.Grade} is incorrect");
         }
 
-        Enrollment? enrollment = student.GetEnrollment(command.EnrollmentNumber);
+        Enrollment? enrollment = student.GetEnrollment(command.EnrollmentNumber - 1);
         if (enrollment == null)
         {
             return Result.Failure("User doesn't have this enrollment");
