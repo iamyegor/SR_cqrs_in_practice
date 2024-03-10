@@ -1,7 +1,6 @@
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using DTOs;
-using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.EditPersonalInfo;
 using Logic.Students.Commands.Register;
@@ -56,11 +55,11 @@ public class StudentController : Controller
         StudentForEditPersonalInfoDto studentForEditPersonalInfoDto
     )
     {
-        EditPersonalInfoCommand command = new EditPersonalInfoCommand(
-            studentId,
-            studentForEditPersonalInfoDto.Name,
-            studentForEditPersonalInfoDto.Email
+        EditPersonalInfoCommand command = _mapper.Map<EditPersonalInfoCommand>(
+            studentForEditPersonalInfoDto
         );
+        command.Id = studentId;
+
         Result result = _messages.Dispatch(command);
 
         return FromResult(result);

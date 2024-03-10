@@ -1,6 +1,7 @@
 using AutoMapper;
 using DTOs;
 using Logic.Students;
+using Logic.Students.Commands.EditPersonalInfo;
 using Logic.Students.Commands.Enroll;
 using Logic.Students.Commands.Register;
 using Logic.Students.Commands.Transfer;
@@ -63,5 +64,6 @@ public class StudentProfile : Profile
         
         CreateMap<StudentForEnrollmentDto, EnrollCommand>();
         CreateMap<StudentForTransferDto, TransferCommand>();
+        CreateMap<StudentForEditPersonalInfoDto, EditPersonalInfoCommand>();
     }
 }
