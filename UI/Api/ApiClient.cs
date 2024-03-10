@@ -70,7 +70,7 @@ namespace UI.Api
         {
             Result result = await SendRequest<string>(
                     $"/{dto.Id}/enrollments/{dto.EnrollmentNumber}",
-                    HttpMethod.Delete,
+                    HttpMethod.Put,
                     dto
                 )
                 .ConfigureAwait(false);
