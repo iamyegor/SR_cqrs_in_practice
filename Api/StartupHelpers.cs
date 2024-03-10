@@ -2,6 +2,10 @@ using Api.DTOs;
 using Api.Utils;
 using Logic.DAL;
 using Logic.Students;
+using Logic.Students.Commands.Common;
+using Logic.Students.Commands.EditPersonalInfo;
+using Logic.Students.Queries.Common;
+using Logic.Students.Queries.GetStudentsList;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;

@@ -1,4 +1,7 @@
 using CSharpFunctionalExtensions;
+using Logic.Students.Commands;
+using Logic.Students.Commands.Common;
+using Logic.Students.Queries.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Logic.Students;

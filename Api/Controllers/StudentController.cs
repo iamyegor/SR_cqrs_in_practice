@@ -2,6 +2,8 @@ using Api.DTOs;
 using CSharpFunctionalExtensions;
 using Logic.DAL;
 using Logic.Students;
+using Logic.Students.Commands.EditPersonalInfo;
+using Logic.Students.Queries.GetStudentsList;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
