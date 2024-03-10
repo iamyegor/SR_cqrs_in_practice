@@ -3,8 +3,11 @@ using Api.Utils;
 using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.Common;
+using Logic.Students.Commands.Disenroll;
 using Logic.Students.Commands.EditPersonalInfo;
+using Logic.Students.Commands.Enroll;
 using Logic.Students.Commands.Register;
+using Logic.Students.Commands.Transfer;
 using Logic.Students.Commands.Unregister;
 using Logic.Students.Queries.Common;
 using Logic.Students.Queries.GetStudentsList;
@@ -53,6 +56,9 @@ public static class StartupHelpers
             ICommandHandler<UnregisterCommand>,
             UnregisterCommandHandler
         >();
+        builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
+        builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
+        builder.Services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
 
         return builder;
     }

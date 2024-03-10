@@ -1,7 +1,9 @@
 using Api.DTOs;
 using AutoMapper;
 using Logic.Students;
+using Logic.Students.Commands.Enroll;
 using Logic.Students.Commands.Register;
+using Logic.Students.Commands.Transfer;
 
 namespace Api.Profiles;
 
@@ -58,5 +60,8 @@ public class StudentProfile : Profile
         CreateMap<Student, StudentForEditPersonalInfoDto>().ReverseMap();
 
         CreateMap<StudentForRegistrationDto, RegisterCommand>();
+        
+        CreateMap<StudentForEnrollmentDto, EnrollCommand>();
+        CreateMap<StudentForTransferDto, TransferCommand>();
     }
 }
