@@ -1,6 +1,6 @@
 namespace Api.DTOs;
 
-public class StudentForUpdateDto
+public class StudentForEditPersonalInfoDto
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

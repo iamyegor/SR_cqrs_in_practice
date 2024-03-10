@@ -34,7 +34,7 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public IActionResult Register([FromBody] StudentForCreationDto studentDto)
+    public IActionResult Register([FromBody] StudentForRegistrationDto studentDto)
     {
         RegisterCommand command = _mapper.Map<RegisterCommand>(studentDto);
         Result result = _messages.Dispatch(command);
@@ -51,12 +51,15 @@ public class StudentController : Controller
     }
 
     [HttpPut("{studentId}")]
-    public IActionResult EditPersonalInfo(int studentId, StudentForUpdateDto studentForUpdateDto)
+    public IActionResult EditPersonalInfo(
+        int studentId,
+        StudentForEditPersonalInfoDto studentForEditPersonalInfoDto
+    )
     {
         EditPersonalInfoCommand command = new EditPersonalInfoCommand(
             studentId,
-            studentForUpdateDto.Name,
-            studentForUpdateDto.Email
+            studentForEditPersonalInfoDto.Name,
+            studentForEditPersonalInfoDto.Email
         );
         Result result = _messages.Dispatch(command);
 

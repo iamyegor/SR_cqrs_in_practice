@@ -55,8 +55,8 @@ public class StudentProfile : Profile
                     )
             );
 
-        CreateMap<Student, StudentForUpdateDto>().ReverseMap();
+        CreateMap<Student, StudentForEditPersonalInfoDto>().ReverseMap();
 
-        CreateMap<StudentForCreationDto, RegisterCommand>();
+        CreateMap<StudentForRegistrationDto, RegisterCommand>();
     }
 }
