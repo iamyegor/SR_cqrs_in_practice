@@ -11,6 +11,7 @@ using Logic.Students.Commands.Transfer;
 using Logic.Students.Commands.Unregister;
 using Logic.Students.Queries.Common;
 using Logic.Students.Queries.GetStudentsList;
+using Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -40,25 +41,8 @@ public static class StartupHelpers
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-        builder.Services.AddTransient<
-            ICommandHandler<EditPersonalInfoCommand>,
-            EditPersonalInfoCommandHandler
-        >();
-
         builder.Services.AddTransient<Messages>();
-        builder.Services.AddTransient<
-            IQueryHandler<GetStudentsListQuery, IEnumerable<StudentDto>>,
-            GetStudentsListQueryHandler
-        >();
-
-        builder.Services.AddTransient<ICommandHandler<RegisterCommand>, RegisterCommandHandler>();
-        builder.Services.AddTransient<
-            ICommandHandler<UnregisterCommand>,
-            UnregisterCommandHandler
-        >();
-        builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
-        builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
-        builder.Services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
+        builder.Services.AddCqrsHandlersFromAssemblyContaining<ILogicAssembly>();
 
         return builder;
     }
