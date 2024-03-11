@@ -47,7 +47,6 @@ public static class StartupHelpers
         builder.Services.AddTransient<Messages>();
         builder.Services.AddCqrsHandlers();
         builder.Services.AddSingleton<ExceptionIncrementor>();
-        builder.Services.AddTransient<Messages>();
 
         return builder;
     }
