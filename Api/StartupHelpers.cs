@@ -3,6 +3,7 @@ using DTOs;
 using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.Common;
+using Logic.Students.Commands.Common.Decorators;
 using Logic.Students.Commands.Disenroll;
 using Logic.Students.Commands.EditPersonalInfo;
 using Logic.Students.Commands.Enroll;
@@ -44,10 +45,17 @@ public static class StartupHelpers
         builder.Services.AddTransient<Messages>();
         // builder.Services.AddCqrsHandlersFromAssemblyContaining<ILogicAssembly>();
 
-        builder.Services.AddTransient<
-            ICommandHandler<EditPersonalInfoCommand>,
-            EditPersonalInfoCommandHandler
-        >();
+        builder.Services.AddSingleton<ExceptionIncrementor>();
+
+        builder.Services.AddTransient<ICommandHandler<EditPersonalInfoCommand>>(
+            provider => new DataBaseRetryDecorator<EditPersonalInfoCommand>(
+                new EditPersonalInfoCommandHandler(
+                    provider.GetRequiredService<StudentRepository>(),
+                    provider.GetRequiredService<ExceptionIncrementor>()
+                ),
+                provider.GetRequiredService<IConfiguration>()
+            )
+        );
 
         builder.Services.AddTransient<Messages>();
         builder.Services.AddTransient<
