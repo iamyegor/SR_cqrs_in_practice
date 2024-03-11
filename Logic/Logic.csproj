@@ -19,6 +19,9 @@
       <Reference Include="AutoMapper">
         <HintPath>..\..\..\.nuget\packages\automapper\13.0.1\lib\net6.0\AutoMapper.dll</HintPath>
       </Reference>
+      <Reference Include="Newtonsoft.Json">
+        <HintPath>..\..\..\.nuget\packages\newtonsoft.json\13.0.3\lib\net6.0\Newtonsoft.Json.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <ItemGroup>

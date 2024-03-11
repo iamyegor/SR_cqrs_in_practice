@@ -48,12 +48,14 @@ public static class StartupHelpers
         builder.Services.AddSingleton<ExceptionIncrementor>();
 
         builder.Services.AddTransient<ICommandHandler<EditPersonalInfoCommand>>(
-            provider => new DataBaseRetryDecorator<EditPersonalInfoCommand>(
-                new EditPersonalInfoCommandHandler(
-                    provider.GetRequiredService<StudentRepository>(),
-                    provider.GetRequiredService<ExceptionIncrementor>()
-                ),
-                provider.GetRequiredService<IConfiguration>()
+            provider => new AuditLoggingDecorator<EditPersonalInfoCommand>(
+                new DataBaseRetryDecorator<EditPersonalInfoCommand>(
+                    new EditPersonalInfoCommandHandler(
+                        provider.GetRequiredService<StudentRepository>(),
+                        provider.GetRequiredService<ExceptionIncrementor>()
+                    ),
+                    provider.GetRequiredService<IConfiguration>()
+                )
             )
         );
 
