@@ -5,7 +5,7 @@ using Logic.Students.Commands.Common.Decorators.AuditLogging;
 using Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 using Logic.Students.Queries.Common;
 
-namespace Api;
+namespace Api.Utils;
 
 public static class ServiceCollectionExtensions
 {
