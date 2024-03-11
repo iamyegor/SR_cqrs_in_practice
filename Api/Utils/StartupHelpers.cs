@@ -20,9 +20,7 @@ public static class StartupHelpers
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(
-                "Host=localhost;Port=5432;Username=postgres;Password=yapidr;Database=khorikov_cqrs;Include Error Detail=true"
-            );
+            options.UseNpgsql(builder.Configuration.GetConnectionString("myString"));
         });
 
         builder.Services.AddTransient<StudentRepository>();
