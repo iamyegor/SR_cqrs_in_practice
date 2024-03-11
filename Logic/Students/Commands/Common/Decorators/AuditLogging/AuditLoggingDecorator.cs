@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
 using Newtonsoft.Json;
 
-namespace Logic.Students.Commands.Common.Decorators;
+namespace Logic.Students.Commands.Common.Decorators.AuditLogging;
 
 public class AuditLoggingDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : ICommand

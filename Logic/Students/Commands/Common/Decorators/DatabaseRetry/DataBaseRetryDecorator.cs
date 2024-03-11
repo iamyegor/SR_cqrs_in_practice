@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Configuration;
 
-namespace Logic.Students.Commands.Common.Decorators;
+namespace Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 
 public class DataBaseRetryDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : ICommand

@@ -1,6 +1,4 @@
 namespace Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 
-public class DatabaseRetryAttribute
-{
-    
-}
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+public class DatabaseRetryAttribute : Attribute;

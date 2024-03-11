@@ -4,6 +4,8 @@ using Logic.DAL;
 using Logic.Students;
 using Logic.Students.Commands.Common;
 using Logic.Students.Commands.Common.Decorators;
+using Logic.Students.Commands.Common.Decorators.AuditLogging;
+using Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 using Logic.Students.Commands.Disenroll;
 using Logic.Students.Commands.EditPersonalInfo;
 using Logic.Students.Commands.Enroll;
@@ -43,36 +45,9 @@ public static class StartupHelpers
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         builder.Services.AddTransient<Messages>();
-        // builder.Services.AddCqrsHandlersFromAssemblyContaining<ILogicAssembly>();
-
+        builder.Services.AddCqrsHandlers();
         builder.Services.AddSingleton<ExceptionIncrementor>();
-
-        builder.Services.AddTransient<ICommandHandler<EditPersonalInfoCommand>>(
-            provider => new AuditLoggingDecorator<EditPersonalInfoCommand>(
-                new DataBaseRetryDecorator<EditPersonalInfoCommand>(
-                    new EditPersonalInfoCommandHandler(
-                        provider.GetRequiredService<StudentRepository>(),
-                        provider.GetRequiredService<ExceptionIncrementor>()
-                    ),
-                    provider.GetRequiredService<IConfiguration>()
-                )
-            )
-        );
-
         builder.Services.AddTransient<Messages>();
-        builder.Services.AddTransient<
-            IQueryHandler<GetStudentsListQuery, IEnumerable<StudentDto>>,
-            GetStudentsListQueryHandler
-        >();
-
-        builder.Services.AddTransient<ICommandHandler<RegisterCommand>, RegisterCommandHandler>();
-        builder.Services.AddTransient<
-            ICommandHandler<UnregisterCommand>,
-            UnregisterCommandHandler
-        >();
-        builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
-        builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
-        builder.Services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
 
         return builder;
     }

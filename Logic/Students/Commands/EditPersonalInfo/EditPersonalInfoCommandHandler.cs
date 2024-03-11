@@ -1,10 +1,14 @@
 using CSharpFunctionalExtensions;
 using Logic.DAL;
 using Logic.Students.Commands.Common;
+using Logic.Students.Commands.Common.Decorators.AuditLogging;
+using Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 using Logic.Utils;
 
 namespace Logic.Students.Commands.EditPersonalInfo;
 
+[AuditLogging]
+[DatabaseRetry]
 public class EditPersonalInfoCommandHandler : ICommandHandler<EditPersonalInfoCommand>
 {
     private readonly StudentRepository _studentRepository;

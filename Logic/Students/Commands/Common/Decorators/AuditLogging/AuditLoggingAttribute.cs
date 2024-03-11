@@ -1,6 +1,4 @@
 namespace Logic.Students.Commands.Common.Decorators.AuditLogging;
 
-public class AuditLoggingAttribute
-{
-    
-}
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+public class AuditLoggingAttribute : Attribute;
