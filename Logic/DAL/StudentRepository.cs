@@ -21,25 +21,6 @@ public sealed class StudentRepository
             .FirstOrDefault();
     }
 
-    public IReadOnlyList<Student> GetList(string? enrolledIn, int? numberOfCourses)
-    {
-        IQueryable<Student> query = _context.Students;
-
-        if (!string.IsNullOrWhiteSpace(enrolledIn))
-        {
-            query = query.Where(s =>
-                s.Enrollments.Count > 0 && s.Enrollments.Any(e => e.Course.Name == enrolledIn)
-            );
-        }
-
-        if (numberOfCourses != null)
-        {
-            query = query.Where(s => s.Enrollments.Count == numberOfCourses);
-        }
-
-        return query.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToList();
-    }
-
     public void Save(Student student)
     {
         _context.Update(student);

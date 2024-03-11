@@ -26,8 +26,5 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             .WithOne(d => d.Student)
             .HasForeignKey("StudentId")
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Ignore(s => s.FirstEnrollment);
-        builder.Ignore(s => s.SecondEnrollment);
     }
 }

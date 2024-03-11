@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-DbSynchronization-9C57EF06-C08F-4F2C-8B68-C449D28B83B1</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.1.35" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
+        <PackageReference Include="Npgsql" Version="8.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="AutoMapper">
+        <HintPath>..\..\..\.nuget\packages\automapper\13.0.1\lib\net6.0\AutoMapper.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="AutoMapper">
+        <HintPath>..\..\..\.nuget\packages\automapper\13.0.1\lib\net6.0\AutoMapper.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+</Project>

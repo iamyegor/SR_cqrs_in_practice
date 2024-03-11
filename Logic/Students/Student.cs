@@ -8,8 +8,6 @@ public class Student : Entity
     private readonly IList<Enrollment> _enrollments = new List<Enrollment>();
     public IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
     private List<Enrollment> _removedEnrollments = [];
-    public Enrollment? FirstEnrollment => GetEnrollment(0);
-    public Enrollment? SecondEnrollment => GetEnrollment(1);
 
     private readonly IList<Disenrollment> _disenrollments = new List<Disenrollment>();
     public IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
