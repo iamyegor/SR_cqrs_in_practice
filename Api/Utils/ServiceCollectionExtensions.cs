@@ -109,7 +109,7 @@ public static class ServiceCollectionExtensions
         }
         else if (attribute.GetType() == typeof(DatabaseRetryAttribute))
         {
-            return typeof(DataBaseRetryDecorator<>);
+            return typeof(DatabaseRetryDecorator<>);
         }
 
         throw new Exception(

@@ -3,13 +3,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Logic.Students.Commands.Common.Decorators.DatabaseRetry;
 
-public class DataBaseRetryDecorator<TCommand> : ICommandHandler<TCommand>
+public class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : ICommand
 {
     private readonly ICommandHandler<TCommand> _handler;
     private readonly IConfiguration _configuration;
 
-    public DataBaseRetryDecorator(ICommandHandler<TCommand> handler, IConfiguration configuration)
+    public DatabaseRetryDecorator(ICommandHandler<TCommand> handler, IConfiguration configuration)
     {
         _handler = handler;
         _configuration = configuration;
