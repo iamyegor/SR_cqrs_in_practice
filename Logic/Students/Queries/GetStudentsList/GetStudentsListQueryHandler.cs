@@ -1,7 +1,7 @@
 using Dapper;
 using DTOs;
 using Logic.Students.Queries.Common;
-using Microsoft.Extensions.Configuration;
+using Logic.Utils;
 using Npgsql;
 
 namespace Logic.Students.Queries.GetStudentsList;
@@ -9,11 +9,11 @@ namespace Logic.Students.Queries.GetStudentsList;
 public class GetStudentsListQueryHandler
     : IQueryHandler<GetStudentsListQuery, IEnumerable<StudentDto>>
 {
-    private readonly string _connectionString;
+    private readonly QueriesConnectionString _queriesConnectionString;
 
-    public GetStudentsListQueryHandler(IConfiguration configuration)
+    public GetStudentsListQueryHandler(QueriesConnectionString queriesConnectionString)
     {
-        _connectionString = configuration.GetConnectionString("queries")!;
+        _queriesConnectionString = queriesConnectionString;
     }
 
     public IEnumerable<StudentDto> Handle(GetStudentsListQuery query)
@@ -41,7 +41,7 @@ public class GetStudentsListQueryHandler
             ORDER BY 
                 s.student_id";
 
-        using (NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+        using (NpgsqlConnection connection = new NpgsqlConnection(_queriesConnectionString.Value))
         {
             var parameters = new { Course = query.EnrolledIn, Number = query.NumberOfCourses };
             List<StudentDto> retrievedStudents = connection

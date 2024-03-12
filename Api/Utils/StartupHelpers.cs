@@ -20,7 +20,7 @@ public static class StartupHelpers
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(builder.Configuration.GetConnectionString("commands"));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("commands")!);
         });
 
         builder.Services.AddTransient<StudentRepository>();
@@ -31,6 +31,12 @@ public static class StartupHelpers
         builder.Services.AddTransient<Messages>();
         builder.Services.AddCqrsHandlers();
         builder.Services.AddSingleton<ExceptionIncrementor>();
+
+        QueriesConnectionString queriesConnectionString = new QueriesConnectionString(
+            builder.Configuration.GetConnectionString("queries")!
+        );
+
+        builder.Services.AddSingleton(queriesConnectionString);
 
         return builder;
     }
