@@ -20,7 +20,7 @@ public static class StartupHelpers
 
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(builder.Configuration.GetConnectionString("myString"));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("commands"));
         });
 
         builder.Services.AddTransient<StudentRepository>();
