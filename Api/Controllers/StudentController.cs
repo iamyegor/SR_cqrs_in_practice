@@ -1,11 +1,12 @@
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using DTOs;
+using Logic.Services.Commands.EditPersonalInfo;
+using Logic.Services.Commands.Register;
+using Logic.Services.Commands.Unregister;
+using Logic.Services.Queries.GetStudentsList;
 using Logic.Students;
-using Logic.Students.Commands.EditPersonalInfo;
-using Logic.Students.Commands.Register;
-using Logic.Students.Commands.Unregister;
-using Logic.Students.Queries.GetStudentsList;
+using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;

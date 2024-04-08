@@ -1,10 +1,10 @@
 using AutoMapper;
 using DTOs;
+using Logic.Services.Commands.EditPersonalInfo;
+using Logic.Services.Commands.Enroll;
+using Logic.Services.Commands.Register;
+using Logic.Services.Commands.Transfer;
 using Logic.Students;
-using Logic.Students.Commands.EditPersonalInfo;
-using Logic.Students.Commands.Enroll;
-using Logic.Students.Commands.Register;
-using Logic.Students.Commands.Transfer;
 
 namespace Api.Profiles;
 

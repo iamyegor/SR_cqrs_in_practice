@@ -1,10 +1,11 @@
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using DTOs;
+using Logic.Services.Commands.Disenroll;
+using Logic.Services.Commands.Enroll;
+using Logic.Services.Commands.Transfer;
 using Logic.Students;
-using Logic.Students.Commands.Disenroll;
-using Logic.Students.Commands.Enroll;
-using Logic.Students.Commands.Transfer;
+using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;

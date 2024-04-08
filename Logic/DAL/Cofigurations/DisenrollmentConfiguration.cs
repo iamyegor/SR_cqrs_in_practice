@@ -8,11 +8,12 @@ public class DisenrollmentConfiguration : IEntityTypeConfiguration<Disenrollment
 {
     public void Configure(EntityTypeBuilder<Disenrollment> builder)
     {
-        builder.HasKey(d => d.Id);
+        builder.ToTable("disenrollments").HasKey(d => d.Id);
 
-        builder.HasOne(d => d.Course).WithMany().HasForeignKey("CourseId");
-
-        builder.Property(d => d.DateTime);
-        builder.Property(d => d.Comment);
+        builder.Property(d => d.Id).HasColumnName("id");
+        builder.Property(d => d.DateTime).HasColumnName("date_time");
+        builder.Property(d => d.Comment).HasColumnName("comment");
+        
+        builder.HasOne(d => d.Course).WithMany().HasForeignKey("course_id");
     }
 }

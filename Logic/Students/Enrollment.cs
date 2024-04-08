@@ -1,3 +1,5 @@
+using Logic.Students.Common;
+
 namespace Logic.Students;
 
 public class Enrollment : Entity
@@ -6,10 +8,11 @@ public class Enrollment : Entity
     public Course Course { get; private set; }
     public Grade Grade { get; private set; }
 
-    private Enrollment() { }
+    private Enrollment()
+        : base(0) { }
 
     public Enrollment(Student? student, Course course, Grade grade)
-        : this()
+        : base(0)
     {
         Student = student;
         Course = course;

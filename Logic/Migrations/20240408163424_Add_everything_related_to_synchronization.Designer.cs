@@ -3,6 +3,7 @@ using System;
 using Logic.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Logic.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240408163424_Add_everything_related_to_synchronization")]
+    partial class Add_everything_related_to_synchronization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,100 +29,90 @@ namespace Logic.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("Credits")
-                        .HasColumnType("integer")
-                        .HasColumnName("credits");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("Logic.Students.Disenrollment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("comment");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_time");
-
-                    b.Property<long?>("course_id")
+                    b.Property<long?>("CourseId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("student_id")
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("StudentId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("course_id");
+                    b.HasIndex("CourseId");
 
-                    b.HasIndex("student_id");
+                    b.HasIndex("StudentId");
 
-                    b.ToTable("disenrollments", (string)null);
+                    b.ToTable("Disenrollment");
                 });
 
             modelBuilder.Entity("Logic.Students.Enrollment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Grade")
-                        .HasColumnType("integer")
-                        .HasColumnName("grade");
-
-                    b.Property<long>("course_id")
+                    b.Property<long>("CourseId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("student_id")
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("StudentId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("course_id");
+                    b.HasIndex("CourseId");
 
-                    b.HasIndex("student_id");
+                    b.HasIndex("StudentId");
 
-                    b.ToTable("enrollments", (string)null);
+                    b.ToTable("Enrollment");
                 });
 
             modelBuilder.Entity("Logic.Students.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("email");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<bool>("IsSyncNeeded")
                         .ValueGeneratedOnAdd()
@@ -130,12 +123,11 @@ namespace Logic.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("students", (string)null);
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("Logic.Students.Synchronization", b =>
@@ -165,11 +157,11 @@ namespace Logic.Migrations
                 {
                     b.HasOne("Logic.Students.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("course_id");
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("Logic.Students.Student", "Student")
                         .WithMany("Disenrollments")
-                        .HasForeignKey("student_id")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
@@ -181,13 +173,13 @@ namespace Logic.Migrations
                 {
                     b.HasOne("Logic.Students.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("course_id")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Logic.Students.Student", "Student")
                         .WithMany("Enrollments")
-                        .HasForeignKey("student_id")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");

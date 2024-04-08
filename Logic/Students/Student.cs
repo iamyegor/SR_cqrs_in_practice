@@ -1,20 +1,24 @@
+using Logic.Students.Common;
+
 namespace Logic.Students;
 
-public class Student : Entity
+public class Student : AggregateRoot
 {
     public string Name { get; set; }
     public string Email { get; set; }
 
     private readonly IList<Enrollment> _enrollments = new List<Enrollment>();
     public IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
-    private List<Enrollment> _removedEnrollments = [];
+    private readonly List<Enrollment> _removedEnrollments = [];
 
     private readonly IList<Disenrollment> _disenrollments = new List<Disenrollment>();
     public IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
 
-    private Student() { }
+    private Student()
+        : base(0) { }
 
     public Student(string name, string email)
+        : base(0)
     {
         Name = name;
         Email = email;

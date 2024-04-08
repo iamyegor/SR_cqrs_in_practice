@@ -8,7 +8,11 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
 {
     public void Configure(EntityTypeBuilder<Enrollment> builder)
     {
-        builder.HasKey(e => e.Id);
-        builder.HasOne(e => e.Course).WithMany().HasForeignKey("CourseId");
+        builder.ToTable("enrollments").HasKey(e => e.Id);
+
+        builder.Property(e => e.Id).HasColumnName("id");
+        builder.Property(e => e.Grade).HasColumnName("grade");
+        
+        builder.HasOne(e => e.Course).WithMany().HasForeignKey("course_id");
     }
 }

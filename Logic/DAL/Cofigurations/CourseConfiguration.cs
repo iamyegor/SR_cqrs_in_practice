@@ -8,8 +8,10 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
 {
     public void Configure(EntityTypeBuilder<Course> builder)
     {
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Name);
-        builder.Property(c => c.Credits);
+        builder.ToTable("courses").HasKey(c => c.Id);
+
+        builder.Property(c => c.Id).HasColumnName("id");
+        builder.Property(c => c.Name).HasColumnName("name");
+        builder.Property(c => c.Credits).HasColumnName("credits");
     }
 }

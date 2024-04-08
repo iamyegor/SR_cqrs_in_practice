@@ -1,3 +1,5 @@
+using Logic.Students.Common;
+
 namespace Logic.Students;
 
 public class Disenrollment : Entity
@@ -7,10 +9,11 @@ public class Disenrollment : Entity
     public DateTime DateTime { get; }
     public string Comment { get; }
 
-    private Disenrollment() { }
+    private Disenrollment()
+        : base(0) { }
 
     public Disenrollment(Student? student, Course? course, string comment)
-        : this()
+        : base(0)
     {
         Student = student;
         Course = course;

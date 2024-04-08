@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Logic.Students.Commands.Common;
-using Logic.Students.Commands.Common.Decorators.AuditLogging;
-using Logic.Students.Commands.Common.Decorators.DatabaseRetry;
-using Logic.Students.Queries.Common;
+using Logic.Services.Commands.Common;
+using Logic.Services.Commands.Common.Decorators.AuditLogging;
+using Logic.Services.Commands.Common.Decorators.DatabaseRetry;
+using Logic.Services.Queries.Common;
 
 namespace Api.Utils;
 

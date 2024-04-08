@@ -1,5 +1,5 @@
 using Logic.DAL;
-using Logic.Students;
+using Logic.DAL.Interceptors;
 using Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +21,7 @@ public static class StartupHelpers
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("commands")!);
+            options.AddInterceptors(new SyncInterceptor());
         });
 
         builder.Services.AddTransient<StudentRepository>();
