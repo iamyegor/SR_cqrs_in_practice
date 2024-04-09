@@ -1,7 +1,7 @@
 using Logic.Students;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logic.DAL;
+namespace Logic.DAL.Repositories;
 
 public sealed class StudentRepository
 {

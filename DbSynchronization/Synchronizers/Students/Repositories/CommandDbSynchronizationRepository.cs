@@ -16,7 +16,7 @@ public class CommandDbSynchronizationRepository
         return connection.QuerySingle<int>(query, new { rowName }, transaction: transaction);
     }
 
-    public void SetSyncFlagFalseFor(
+    public void ResetSyncFlagFor(
         string rowName,
         int rowVersion,
         NpgsqlConnection connection,

@@ -1,3 +1,3 @@
-namespace Logic.DAL.Cofigurations;
+namespace Logic.DAL.Cofigurations.Interfaces;
 
 public interface IEntitiesConfigurationsAssembly;

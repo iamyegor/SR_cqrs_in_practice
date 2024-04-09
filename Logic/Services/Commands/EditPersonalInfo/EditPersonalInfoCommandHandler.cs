@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using Logic.DAL;
+using Logic.DAL.Repositories;
 using Logic.Services.Commands.Common;
 using Logic.Services.Commands.Common.Decorators.AuditLogging;
 using Logic.Services.Commands.Common.Decorators.DatabaseRetry;

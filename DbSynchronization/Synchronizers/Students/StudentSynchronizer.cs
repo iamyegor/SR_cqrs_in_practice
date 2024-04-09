@@ -64,10 +64,9 @@ public class StudentSynchronizer
     {
         int syncRowVersion = _syncRepository.GetRowVersionFor("Student", connection, transaction);
 
-        List<Student> students = _studentRepository.GetAllThatNeedSync(connection, transaction);
+        List<Student> students = _studentRepository.SyncAndResetFlags(connection, transaction);
 
-        _studentRepository.SetSyncFlagsFalse(connection, transaction);
-        _syncRepository.SetSyncFlagFalseFor("Student", syncRowVersion, connection, transaction);
+        _syncRepository.ResetSyncFlagFor("Student", syncRowVersion, connection, transaction);
 
         return students;
     }

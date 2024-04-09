@@ -1,5 +1,6 @@
 using Logic.DAL;
 using Logic.DAL.Interceptors;
+using Logic.DAL.Repositories;
 using Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 

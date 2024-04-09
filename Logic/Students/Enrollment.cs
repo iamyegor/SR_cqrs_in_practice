@@ -7,6 +7,7 @@ public class Enrollment : Entity
     public Student? Student { get; private set; }
     public Course Course { get; private set; }
     public Grade Grade { get; private set; }
+    public bool IsDeleted { get; set; }
 
     private Enrollment()
         : base(0) { }

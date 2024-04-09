@@ -1,6 +1,6 @@
 using Logic.Students;
 
-namespace Logic.DAL;
+namespace Logic.DAL.Repositories;
 
 public sealed class CourseRepository
 {
