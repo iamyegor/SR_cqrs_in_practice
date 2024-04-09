@@ -1,4 +1,5 @@
 using DbSynchronization.Synchronizers.Students;
+using Serilog;
 
 namespace DbSynchronization.Workers;
 
@@ -13,10 +14,17 @@ public class SynchronizerWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Console.WriteLine("Student synchronization worker started");
+        Log.Information("Outbox synchronization worker started");
         while (!stoppingToken.IsCancellationRequested)
         {
-            _studentSynchronizer.Sync();
+            try
+            {
+                _studentSynchronizer.Sync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "SynchronizerWorker caught the exception");
+            }
 
             await Task.Delay(1000, stoppingToken);
         }

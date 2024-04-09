@@ -13,40 +13,76 @@ public class CommandDbStudentRepository
         NpgsqlTransaction transaction
     )
     {
-        List<Student> studentsToReturn = [];
+        LockStudentsAndEnrollments(connection, transaction);
 
+        List<StudentInCommandDb> retrievedStudents = GetStudentsInCommandDb(
+            connection,
+            transaction
+        );
+
+        List<Student> students = MapStudents(retrievedStudents);
+
+        return students;
+    }
+
+    private void LockStudentsAndEnrollments(
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction
+    )
+    {
+        string studentsQuery = "select id from students where is_sync_needed = true for update;";
+        List<int> studentIds = connection
+            .Query<int>(studentsQuery, transaction: transaction)
+            .ToList();
+
+        if (studentIds.Count != 0)
+        {
+            string enrollmentsQuery =
+                "select id from enrollments where student_id = any(@Ids) for update;";
+
+            connection.Execute(
+                enrollmentsQuery,
+                new { Ids = studentIds },
+                transaction: transaction
+            );
+        }
+    }
+
+    private List<StudentInCommandDb> GetStudentsInCommandDb(
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction
+    )
+    {
         string query =
             @$"
-            select id
+            SELECT 
+                s.id AS Id, 
+                s.name AS Name, 
+                s.email AS Email,
+                (SELECT COUNT(*) FROM enrollments e WHERE e.student_id = s.id) 
+                    AS NumberOfEnrollments,
+                e.grade AS Grade, 
+                c.name AS CourseName, 
+                c.credits AS CourseCredits
             into temp {TempTable}
-            from students
-            where is_sync_needed = true
-            for update;
-            
-            select 
-                s.id as Id,
-                s.name as Name,
-                s.email as Email,
-                t.number_of_enrollments as NumberOfEnrollments,
-                e.grade as Grade,
-                c.name as CourseName,
-                c.credits as CourseCredits
-            from students s
-            left join (
-                select student_id, count(*) as number_of_enrollments
-                from enrollments
-                group by student_id
-            ) t on s.id = t.student_id
-            left join enrollments e on s.id = e.student_id 
-            left join courses c on c.id = e.course_id
-            where s.is_sync_needed = true";
+            FROM students s
+            left JOIN enrollments e ON s.id = e.student_id
+            left JOIN courses c ON e.course_id = c.id
+            WHERE s.is_sync_needed = true;
+
+            select * from {TempTable}";
 
         List<StudentInCommandDb> retrievedStudents = connection
             .Query<StudentInCommandDb>(query, transaction: transaction)
             .ToList();
+        return retrievedStudents;
+    }
 
+    private List<Student> MapStudents(List<StudentInCommandDb> retrievedStudents)
+    {
         IEnumerable<int> uniqueStudentIds = retrievedStudents.Select(s => s.Id).Distinct();
 
+        List<Student> studentsToReturn = [];
         foreach (var uniqueStudentId in uniqueStudentIds)
         {
             List<StudentInCommandDb> data = retrievedStudents

@@ -3,6 +3,7 @@ using DbSynchronization.ConnectionStrings;
 using DbSynchronization.Synchronizers.Students.Models;
 using DbSynchronization.Synchronizers.Students.Repositories;
 using Npgsql;
+using Serilog;
 
 namespace DbSynchronization.Synchronizers.Students;
 
@@ -36,17 +37,15 @@ public class StudentSynchronizer
 
         try
         {
-            List<Student> studentsFromCommandDb = GetUpdatedStudents(
-                connection,
-                transaction
-            );
+            List<Student> studentsFromCommandDb = GetUpdatedStudents(connection, transaction);
 
             _outboxRepository.Save(studentsFromCommandDb, "Student", connection, transaction);
 
             transaction.Commit();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.Error(ex, "StudentSynchronizer caught the exception");
             transaction.Rollback();
         }
     }
@@ -65,10 +64,7 @@ public class StudentSynchronizer
     {
         int syncRowVersion = _syncRepository.GetRowVersionFor("Student", connection, transaction);
 
-        List<Student> students = _studentRepository.GetAllThatNeedSync(
-            connection,
-            transaction
-        );
+        List<Student> students = _studentRepository.GetAllThatNeedSync(connection, transaction);
 
         _studentRepository.SetSyncFlagsFalse(connection, transaction);
         _syncRepository.SetSyncFlagFalseFor("Student", syncRowVersion, connection, transaction);
