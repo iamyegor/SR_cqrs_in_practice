@@ -23,7 +23,7 @@ public class StudentController : Controller
     {
         // IReadOnlyList<Student> studentsFromDb = _studentRepository.GetList(enrolled, number);
         //
-        // return Ok(_mapper.Map<IEnumerable<StudentDto>>(studentsFromDb));
+        // return Ok(studentsFromDb.Adapt<IEnumerable<StudentDto>>())
         return Ok();
     }
 
