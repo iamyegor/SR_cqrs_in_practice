@@ -12,5 +12,6 @@ public class StudentInDb
 
     public string? SecondCourseName { get; set; }
     public string? SecondCourseGrade { get; set; }
+
     public int? SecondCourseCredits { get; set; }
 }
