@@ -79,7 +79,7 @@ public class CommandDbStudentRepository
                 s.email AS Email,
                 (SELECT COUNT(*) FROM enrollments e WHERE e.student_id = s.id and e.is_deleted = false) 
                     AS NumberOfEnrollments,
-                e.grade AS Grade, 
+                e.grade AS CourseGrade, 
                 e.is_deleted as IsCourseDeleted,
                 c.name AS CourseName, 
                 c.credits AS CourseCredits
@@ -128,7 +128,7 @@ public class CommandDbStudentRepository
                 {
                     student.FirstCourseName = firstEntry.CourseName;
                     student.FirstCourseCredits = firstEntry.CourseCredits;
-                    student.FirstCourseGrade = firstEntry.Grade;
+                    student.FirstCourseGrade = firstEntry.CourseGrade;
                 }
 
                 StudentInJoinQuery? secondEntry = g.ElementAtOrDefault(1);
@@ -136,7 +136,7 @@ public class CommandDbStudentRepository
                 {
                     student.SecondCourseName = secondEntry.CourseName;
                     student.SecondCourseCredits = secondEntry.CourseCredits;
-                    student.SecondCourseGrade = secondEntry.Grade;
+                    student.SecondCourseGrade = secondEntry.CourseGrade;
                 }
 
                 return student;
