@@ -47,11 +47,13 @@ public static class StartupHelpers
         >();
 
         builder.Services.AddTransient<ICommandHandler<EditPersonalInfoCommand>>(
-            provider => new DatabaseRetryDecorator<EditPersonalInfoCommand>(
-                new EditPersonalInfoCommandHandler(
-                    provider.GetRequiredService<StudentRepository>()
-                ),
-                int.Parse(builder.Configuration["DatabaseRetries"]!)
+            provider => new AuditLoggingDecorator<EditPersonalInfoCommand>(
+                new DatabaseRetryDecorator<EditPersonalInfoCommand>(
+                    new EditPersonalInfoCommandHandler(
+                        provider.GetRequiredService<StudentRepository>()
+                    ),
+                    int.Parse(builder.Configuration["DatabaseRetries"]!)
+                )
             )
         );
 
