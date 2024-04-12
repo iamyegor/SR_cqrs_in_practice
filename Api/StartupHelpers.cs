@@ -1,6 +1,7 @@
 using System.Reflection;
 using Api.Utils;
 using Logic.Application.Commands.Common;
+using Logic.Application.Commands.Common.Decorators;
 using Logic.Application.Commands.Disenroll;
 using Logic.Application.Commands.EditPersonalInfo;
 using Logic.Application.Commands.Enroll;
@@ -41,13 +42,18 @@ public static class StartupHelpers
         builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
         builder.Services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
         builder.Services.AddTransient<
-            ICommandHandler<EditPersonalInfoCommand>,
-            EditPersonalInfoCommandHandler
-        >();
-        builder.Services.AddTransient<
             IQueryHandler<GetStudentsListQuery, IReadOnlyList<StudentInDb>>,
             GetStudentsListQueryHandler
         >();
+
+        builder.Services.AddTransient<ICommandHandler<EditPersonalInfoCommand>>(
+            provider => new DatabaseRetryDecorator<EditPersonalInfoCommand>(
+                new EditPersonalInfoCommandHandler(
+                    provider.GetRequiredService<StudentRepository>()
+                ),
+                int.Parse(builder.Configuration["DatabaseRetries"]!)
+            )
+        );
 
         return builder;
     }
