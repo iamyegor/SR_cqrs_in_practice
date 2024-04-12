@@ -13,9 +13,11 @@ public class GetStudentsListQueryHandler
             @"
             select *
             from students 
-            where (number_of_enrollments = @NumberOfEnrollments or @NumberOfEnrollments is null)";
+            where (first_course_name = @Course or second_course_name = @Course or @Course is null)
+            and (number_of_enrollments = @Number or @Number is null)";
 
         using NpgsqlConnection connection = new NpgsqlConnection(QueryDbConnectionString.Value);
-        return connection.Query<StudentInDb>(sql, new { query.NumberOfEnrollments }).ToList();
+        var param = new { Course = query.EnrolledCourseName, Number = query.NumberOfEnrollments };
+        return connection.Query<StudentInDb>(sql, param).ToList();
     }
 }
