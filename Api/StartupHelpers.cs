@@ -1,4 +1,10 @@
 using Api.Utils;
+using Logic.Application.Commands.Common;
+using Logic.Application.Commands.Disenroll;
+using Logic.Application.Commands.EditPersonalInfo;
+using Logic.Application.Commands.Enroll;
+using Logic.Application.Commands.Transfer;
+using Logic.Application.Utils;
 using Logic.DAL;
 using Logic.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +24,15 @@ public static class StartupHelpers
             options.UseNpgsql(builder.Configuration.GetConnectionString("Command"));
         });
 
+        builder.Services.AddTransient<Messages>();
         builder.Services.AddTransient<StudentRepository>();
         builder.Services.AddTransient<CourseRepository>();
+
+        builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
+        builder.Services.AddTransient<
+            ICommandHandler<EditPersonalInfoCommand>,
+            EditPersonalInfoCommandHandler
+        >();
 
         return builder;
     }
