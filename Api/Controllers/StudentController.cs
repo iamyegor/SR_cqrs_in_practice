@@ -3,6 +3,7 @@ using FluentResults;
 using Logic.Application.Commands.EditPersonalInfo;
 using Logic.Application.Commands.Register;
 using Logic.Application.Commands.Unregister;
+using Logic.Application.Queries.GetStudentsList;
 using Logic.Application.Utils;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +24,10 @@ public class StudentController : Controller
     [HttpGet]
     public IActionResult GetList(string? enrolled, int? number)
     {
-        // IReadOnlyList<Student> studentsFromDb = _studentRepository.GetList(enrolled, number);
-        //
-        // return Ok(studentsFromDb.Adapt<IEnumerable<StudentDto>>())
-        return Ok();
+        GetStudentsListQuery query = new GetStudentsListQuery(enrolled, number);
+        IReadOnlyList<StudentInDb> studentsInDb = _messages.Dispatch(query);
+
+        return Ok(studentsInDb.Adapt<List<StudentDto>>());
     }
 
     [HttpPost]
