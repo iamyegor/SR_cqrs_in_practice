@@ -1,3 +1,4 @@
+using System.Reflection;
 using Api.Utils;
 using Logic.Application.Commands.Common;
 using Logic.Application.Commands.Disenroll;
@@ -5,11 +6,11 @@ using Logic.Application.Commands.EditPersonalInfo;
 using Logic.Application.Commands.Enroll;
 using Logic.Application.Commands.Transfer;
 using Logic.Application.Queries.Common;
-using Logic.Application.Queries.Common;
 using Logic.Application.Queries.GetStudentsList;
 using Logic.Application.Utils;
 using Logic.DAL;
 using Logic.DAL.Repositories;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -32,6 +33,9 @@ public static class StartupHelpers
         builder.Services.AddTransient<Messages>();
         builder.Services.AddTransient<StudentRepository>();
         builder.Services.AddTransient<CourseRepository>();
+
+        var config = TypeAdapterConfig.GlobalSettings;
+        config.Scan(Assembly.GetExecutingAssembly());
 
         builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
         builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();

@@ -1,6 +1,10 @@
 using Api.DTOs;
-using Logic.DAL.Repositories;
-using Logic.Students;
+using FluentResults;
+using Logic.Application.Commands.EditPersonalInfo;
+using Logic.Application.Commands.Register;
+using Logic.Application.Commands.Unregister;
+using Logic.Application.Utils;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -9,13 +13,11 @@ namespace Api.Controllers;
 [Route("api/students")]
 public class StudentController : Controller
 {
-    private readonly StudentRepository _studentRepository;
-    private readonly CourseRepository _courseRepository;
+    private readonly Messages _messages;
 
-    public StudentController(StudentRepository studentRepository, CourseRepository courseRepository)
+    public StudentController(Messages messages)
     {
-        _studentRepository = studentRepository;
-        _courseRepository = courseRepository;
+        _messages = messages;
     }
 
     [HttpGet]
@@ -30,61 +32,18 @@ public class StudentController : Controller
     [HttpPost]
     public IActionResult Register(StudentForRegistrationDto studentDto)
     {
-        var student = new Student(studentDto.Name, studentDto.Email);
+        RegisterCommand command = studentDto.Adapt<RegisterCommand>();
+        Result result = _messages.Dispatch(command);
 
-        if (
-            !string.IsNullOrEmpty(studentDto.Course1)
-            && !string.IsNullOrEmpty(studentDto.Course1Grade)
-        )
-        {
-            Course? course = _courseRepository.GetByName(studentDto.Course1);
-            if (course == null)
-            {
-                return Error($"Course with name {studentDto.Course1} doesn't exist");
-            }
-
-            if (!Enum.TryParse(studentDto.Course1Grade, out Grade grade))
-            {
-                return Error($"Invalid grade value: {studentDto.Course1Grade}");
-            }
-            student.Enroll(course, grade);
-        }
-
-        if (
-            !string.IsNullOrEmpty(studentDto.Course2)
-            && !string.IsNullOrEmpty(studentDto.Course2Grade)
-        )
-        {
-            Course? course = _courseRepository.GetByName(studentDto.Course2);
-            if (course == null)
-            {
-                return Error($"Course with name {studentDto.Course2} doesn't exist");
-            }
-
-            if (!Enum.TryParse(studentDto.Course2Grade, out Grade grade))
-            {
-                return Error($"Invalid grade value: {studentDto.Course2Grade}");
-            }
-            student.Enroll(course, grade);
-        }
-
-        _studentRepository.Add(student);
-
-        return CreatedAtAction(nameof(Register), new { id = student.Id }, student);
+        return FromResult(result);
     }
 
     [HttpDelete("{id}")]
     public IActionResult Unregister(int id)
     {
-        Student? student = _studentRepository.GetById(id);
-        if (student == null)
-        {
-            return Error($"No student found for Id {id}");
-        }
+        Result result = _messages.Dispatch(new UnregisterCommand(id));
 
-        _studentRepository.Delete(student);
-
-        return Ok();
+        return FromResult(result);
     }
 
     [HttpPut("{studentId}")]
@@ -93,17 +52,13 @@ public class StudentController : Controller
         StudentForEditPersonalInfoDto studentForEditPersonalInfoDto
     )
     {
-        Student? student = _studentRepository.GetById(studentId);
-        if (student == null)
-        {
-            return Error($"No student found for Id {studentId}");
-        }
+        EditPersonalInfoCommand command = (
+            studentId,
+            studentForEditPersonalInfoDto
+        ).Adapt<EditPersonalInfoCommand>();
 
-        student.Name = studentForEditPersonalInfoDto.Name;
-        student.Email = studentForEditPersonalInfoDto.Email;
+        Result result = _messages.Dispatch(command);
 
-        _studentRepository.Save(student);
-
-        return Ok();
+        return FromResult(result);
     }
 }

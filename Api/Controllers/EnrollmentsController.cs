@@ -1,6 +1,10 @@
 using Api.DTOs;
-using Logic.DAL.Repositories;
-using Logic.Students;
+using FluentResults;
+using Logic.Application.Commands.Disenroll;
+using Logic.Application.Commands.Enroll;
+using Logic.Application.Commands.Transfer;
+using Logic.Application.Utils;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -9,44 +13,20 @@ namespace Api.Controllers;
 [Route("api/students/{studentId}/enrollments")]
 public class EnrollmentsController : Controller
 {
-    private readonly StudentRepository _studentRepository;
-    private readonly CourseRepository _courseRepository;
+    private readonly Messages _messages;
 
-    public EnrollmentsController(
-        StudentRepository studentRepository,
-        CourseRepository courseRepository
-    )
+    public EnrollmentsController(Messages messages)
     {
-        _studentRepository = studentRepository;
-        _courseRepository = courseRepository;
+        _messages = messages;
     }
 
     [HttpPost]
     public IActionResult Enroll(int studentId, StudentForEnrollmentDto studentDto)
     {
-        Student? student = _studentRepository.GetById(studentId);
-        if (student == null)
-        {
-            return Error($"No student found for Id {studentId}");
-        }
+        EnrollCommand command = (studentId, studentDto).Adapt<EnrollCommand>();
+        Result result = _messages.Dispatch(command);
 
-        Course? course = _courseRepository.GetByName(studentDto.Course);
-        if (course == null)
-        {
-            return Error($"No course with name {studentDto.Course}");
-        }
-
-        bool gradeParsed = Enum.TryParse(studentDto.Grade, out Grade grade);
-        if (!gradeParsed)
-        {
-            return Error($"The provided grade {studentDto.Grade} is incorrect");
-        }
-
-        student.Enroll(course, grade);
-
-        _studentRepository.Save(student);
-
-        return Ok();
+        return FromResult(result);
     }
 
     [HttpPut("{enrollmentNumber}")]
@@ -56,35 +36,15 @@ public class EnrollmentsController : Controller
         StudentForTransferDto studentDto
     )
     {
-        Student? student = _studentRepository.GetById(studentId);
-        if (student == null)
-        {
-            return Error($"No student found for Id {studentId}");
-        }
+        TransferCommand command = (
+            studentId,
+            enrollmentNumber,
+            studentDto
+        ).Adapt<TransferCommand>();
 
-        Course? course = _courseRepository.GetByName(studentDto.Course);
-        if (course == null)
-        {
-            return Error($"No course with name {studentDto.Course}");
-        }
+        Result result = _messages.Dispatch(command);
 
-        bool gradeParsed = Enum.TryParse(studentDto.Grade, out Grade grade);
-        if (!gradeParsed)
-        {
-            return Error($"The provided grade {studentDto.Grade} is incorrect");
-        }
-
-        Enrollment? enrollment = student.GetEnrollment(enrollmentNumber - 1);
-        if (enrollment == null)
-        {
-            return Error("User doesn't have this enrollment");
-        }
-
-        enrollment.Update(course, grade);
-
-        _studentRepository.Save(student);
-
-        return Ok();
+        return FromResult(result);
     }
 
     [HttpDelete("{enrollmentNumber}")]
@@ -94,22 +54,14 @@ public class EnrollmentsController : Controller
         StudentForDisenrollmentDto studentDto
     )
     {
-        Student? student = _studentRepository.GetById(studentId);
-        if (student == null)
-        {
-            return Error($"No student found for Id {studentId}");
-        }
+        DisenrollCommand command = (
+            studentId,
+            enrollmentNumber,
+            studentDto
+        ).Adapt<DisenrollCommand>();
+        
+        Result result = _messages.Dispatch(command);
 
-        Enrollment? enrollment = student.GetEnrollment(enrollmentNumber - 1);
-        if (enrollment == null)
-        {
-            return Error("User doesn't have this enrollment");
-        }
-
-        student.Disenroll(enrollment, studentDto.Comment);
-
-        _studentRepository.Save(student);
-
-        return Ok();
+        return FromResult(result);
     }
 }
