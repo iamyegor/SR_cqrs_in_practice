@@ -13,6 +13,7 @@ public class Student : Entity
 
     private readonly IList<Disenrollment> _disenrollments = new List<Disenrollment>();
     public IReadOnlyList<Disenrollment> Disenrollments => _disenrollments.ToList();
+    public bool IsSyncNeeded { get; set; }
 
     private Student() { }
 

@@ -15,6 +15,11 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(s => s.Email).HasColumnName("email").IsRequired().HasMaxLength(100);
 
         builder
+            .Property(s => s.IsSyncNeeded)
+            .HasColumnName("is_sync_needed")
+            .HasDefaultValue(true);
+
+        builder
             .HasMany(s => s.Enrollments)
             .WithOne(e => e.Student)
             .HasForeignKey("student_id")
