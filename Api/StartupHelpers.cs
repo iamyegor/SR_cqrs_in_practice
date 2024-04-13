@@ -29,6 +29,8 @@ public static class StartupHelpers
         builder.Services.AddTransient<CourseRepository>();
 
         builder.Services.AddTransient<ICommandHandler<EnrollCommand>, EnrollCommandHandler>();
+        builder.Services.AddTransient<ICommandHandler<TransferCommand>, TransferCommandHandler>();
+        builder.Services.AddTransient<ICommandHandler<DisenrollCommand>, DisenrollCommandHandler>();
         builder.Services.AddTransient<
             ICommandHandler<EditPersonalInfoCommand>,
             EditPersonalInfoCommandHandler
