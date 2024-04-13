@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
 {
     public DbSet<Student> Students => Set<Student>();
     public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Synchronization> Sync => Set<Synchronization>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options) { }
@@ -18,4 +19,11 @@ public class AppDbContext : DbContext
             typeof(IEntityConfigurationsAssembly).Assembly
         );
     }
+}
+
+public class Synchronization
+{
+    public string Name { get; private set; }
+    public bool IsSyncRequired { get; set; }
+    public int RowVersion { get; private set; }
 }
