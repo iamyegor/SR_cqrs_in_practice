@@ -61,13 +61,45 @@ public class CommandDbStudentRepository
         NpgsqlTransaction transaction
     )
     {
-        throw new NotImplementedException();
+        string query =
+            @"
+            select s.*, e.id as enrollment_id, e.*, c.*
+            from students s
+            left join enrollments e on s.id = e.student_id and is_deleted = false
+            left join courses c on e.course_id = c.id
+            where s.id = any(@studentIds)";
+
+        var studentDictionary = new Dictionary<int, StudentInCommandDb>();
+
+        NpgsqlConnection connection = transaction.Connection!;
+        IEnumerable<StudentInCommandDb> students = connection
+            .Query<StudentInCommandDb, EnrollmentInCommandDb, StudentInCommandDb>(
+                query,
+                (student, enrollment) =>
+                {
+                    if (!studentDictionary.TryGetValue(student.Id, out var currentStudent))
+                    {
+                        currentStudent = student;
+                        studentDictionary.Add(currentStudent.Id, currentStudent);
+                    }
+
+                    currentStudent.Enrollments.Add(enrollment);
+
+                    return currentStudent;
+                },
+                param: new { studentIds },
+                splitOn: "enrollment_id",
+                transaction: transaction
+            )
+            .Distinct();
+
+        return students.ToList();
     }
 
     private void ResetSyncFlags(List<int> studentIds, NpgsqlTransaction transaction)
     {
         string query = "update Students set is_sync_needed = false where id = any(@studentIds)";
-        
+
         NpgsqlConnection connection = transaction.Connection!;
         connection.Execute(query, new { studentIds }, transaction: transaction);
     }
