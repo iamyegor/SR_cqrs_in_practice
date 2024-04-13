@@ -32,6 +32,24 @@ namespace Logic.Migrations
                 }
             );
 
+            migrationBuilder.Sql(
+                @"
+create or replace function increment_row_version()
+returns trigger as $$
+    begin
+        new.row_version = old.row_version + 1;
+        return new;
+    end;
+$$ language plpgsql;"
+            );
+
+            migrationBuilder.Sql(
+                @"
+create or replace trigger increment_row_version_on_update
+before update on sync
+for each row execute function increment_row_version();"
+            );
+
             migrationBuilder.Sql(@"insert into sync (name) values ('Student')");
         }
 
@@ -39,6 +57,8 @@ namespace Logic.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("delete from sync where name = 'Student'");
+            migrationBuilder.Sql("drop trigger if exists increment_row_version_on_update on sync;");
+            migrationBuilder.Sql("drop function if exists increment_row_version();");
 
             migrationBuilder.DropTable(name: "sync");
         }
