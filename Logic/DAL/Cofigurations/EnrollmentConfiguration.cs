@@ -12,7 +12,8 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
 
         builder.Property(e => e.Id).HasColumnName("id");
         builder.Property(e => e.Grade).HasColumnName("grade");
-        
+        builder.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
+
         builder.HasOne(e => e.Course).WithMany().HasForeignKey("course_id");
     }
 }
