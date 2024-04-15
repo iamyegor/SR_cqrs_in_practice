@@ -17,6 +17,7 @@ builder.Services.AddTransient<CommandDbStudentRepository>();
 builder.Services.AddTransient<CommandDbSynchronizationRepository>();
 builder.Services.AddTransient<CommandDbOutboxRepository>();
 builder.Services.AddTransient<QueryDbStudentRepository>();
+builder.Services.AddTransient<SqlGenerator>();
 
 CommandDbConnectionString.Value = builder.Configuration.GetConnectionString("Command")!;
 QueryDbConnectionString.Value = builder.Configuration.GetConnectionString("Query")!;
