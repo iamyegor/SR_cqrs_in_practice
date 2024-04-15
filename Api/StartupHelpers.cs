@@ -4,6 +4,7 @@ using Logic.Application.Commands.Disenroll;
 using Logic.Application.Commands.EditPersonalInfo;
 using Logic.Application.Commands.Enroll;
 using Logic.Application.Commands.Transfer;
+using Logic.Application.Queries.Common;
 using Logic.Application.Utils;
 using Logic.DAL;
 using Logic.DAL.Repositories;
@@ -23,6 +24,8 @@ public static class StartupHelpers
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("Command"));
         });
+
+        QueryDbConnectionString.Value = builder.Configuration.GetConnectionString("Query")!;
 
         builder.Services.AddTransient<Messages>();
         builder.Services.AddTransient<StudentRepository>();
