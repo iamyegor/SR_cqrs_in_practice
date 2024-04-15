@@ -1,7 +1,8 @@
 using System.Reflection;
 using Api.Utils;
 using Logic.Application.Commands.Common;
-using Logic.Application.Commands.Common.Decorators;
+using Logic.Application.Commands.Common.Decorators.AuditLogging;
+using Logic.Application.Commands.Common.Decorators.DatabaseRetry;
 using Logic.Application.Commands.Disenroll;
 using Logic.Application.Commands.EditPersonalInfo;
 using Logic.Application.Commands.Enroll;
