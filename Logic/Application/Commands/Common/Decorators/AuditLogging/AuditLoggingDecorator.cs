@@ -1,7 +1,7 @@
 using FluentResults;
 using Newtonsoft.Json;
 
-namespace Logic.Application.Commands.Common.Decorators;
+namespace Logic.Application.Commands.Common.Decorators.AuditLogging;
 
 public class AuditLoggingDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : ICommand

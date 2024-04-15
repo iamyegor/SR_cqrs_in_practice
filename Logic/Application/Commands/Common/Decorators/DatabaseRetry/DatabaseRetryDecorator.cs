@@ -1,6 +1,6 @@
 using FluentResults;
 
-namespace Logic.Application.Commands.Common.Decorators;
+namespace Logic.Application.Commands.Common.Decorators.DatabaseRetry;
 
 public class DatabaseRetryDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : ICommand

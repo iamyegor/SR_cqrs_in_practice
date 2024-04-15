@@ -1,10 +1,14 @@
 using FluentResults;
 using Logic.Application.Commands.Common;
+using Logic.Application.Commands.Common.Decorators.AuditLogging;
+using Logic.Application.Commands.Common.Decorators.DatabaseRetry;
 using Logic.DAL.Repositories;
 using Logic.Students;
 
 namespace Logic.Application.Commands.EditPersonalInfo;
 
+[AuditLogging]
+[DatabaseRetry]
 public class EditPersonalInfoCommandHandler : ICommandHandler<EditPersonalInfoCommand>
 {
     private readonly StudentRepository _studentRepository;
